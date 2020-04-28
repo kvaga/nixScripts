@@ -1,0 +1,1 @@
+rm pstack.cap high-cpu.out; for y in {1..5}; do echo $y >&2; echo -e "\nDate: $(date)"; top -b -n 1 -H >>high-cpu.out; for pid in $(ps -C java --noheader -o pid); do echo "    PID: $pid"; gstack $pid; done; sleep 3; done >>pstack.cap
