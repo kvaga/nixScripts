@@ -29,8 +29,21 @@ function memory(){
 }
 
 function send_to_influxdb(){
-	#echo $1 $2;
+	#echo parameter1:$1 parameter2:$2;
 	curl -i -XPOST "http://$INFLUXDB_HOST:$INFLUXDB_PORT/write?db=$INFLUXDB_DB" --data "$1,host=$hostname value=$2"
+}
+
+function hdd_usage(){
+	df -h | awk '{print $5,$6}' | while read -r line ; 
+		do 
+			if [[ $line != Use* ]]; 
+			then
+				#echo line=$line 
+				local res=$(echo $line | awk -F'% ' '{print "hdd,mount_point="$2" "$1}') ;
+				#echo res=$res
+				send_to_influxdb $res
+			fi; 
+		done
 }
 
 function monitoring(){
@@ -55,8 +68,9 @@ function monitoring(){
 				send_to_influxdb cpu_idle ${BASH_REMATCH[3]}; 
 				send_to_influxdb mem_used_kb ${BASH_REMATCH[4]}; 
 				send_to_influxdb mem_free_kb ${BASH_REMATCH[5]}; 
+				echo "";
 			fi
-			#send_to_grafana $result;
+			hdd_usage
 		fi
         done;
 }
