@@ -7,7 +7,7 @@ echo Working directory=$(pwd)
 # Configuration
 MODE=1
 source env.sh
-
+source lib.sh
 ###############
 MODE_LOG=1
 MODE_GRAFANA=2
@@ -28,10 +28,10 @@ function memory(){
         echo "$res"
 }
 
-function send_to_influxdb(){
-	#echo parameter1:$1 parameter2:$2;
-	curl -i -XPOST "http://$INFLUXDB_HOST:$INFLUXDB_PORT/write?db=$INFLUXDB_DB" --data "$1,host=$hostname value=$2"
-}
+#function send_to_influxdb(){
+#	#echo parameter1:$1 parameter2:$2;
+#	curl -i -XPOST "http://$INFLUXDB_HOST:$INFLUXDB_PORT/write?db=$INFLUXDB_DB" --data "$1,host=$hostname value=$2"
+#}
 
 function hdd_usage(){
 	df -h | awk '{print $5,$6}' | while read -r line ; 
@@ -45,6 +45,7 @@ function hdd_usage(){
 			fi; 
 		done
 }
+
 
 function monitoring(){
         #while [ 1=1 ];
