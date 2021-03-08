@@ -11,6 +11,12 @@ echo Log file with exceptions: $log_file_with_exceptions
 res=$(cat $log_file_with_exceptions | egrep "Exception|Exception:" | wc -l)
 hostname=$(hostname)
 #echo res: $res
-send_to_influxdb exceptions,file=$log_file_with_exceptions $res
+if [ -z "$2" ]
+  then
+    echo send_to_influxdb exceptions,file=$log_file_with_exceptions $res
+  else
+    echo send_to_influxdb exceptions,file=$2 $res
+fi
+#send_to_influxdb exceptions,file=$log_file_with_exceptions $res
 
 
