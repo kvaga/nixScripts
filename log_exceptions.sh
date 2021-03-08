@@ -13,9 +13,9 @@ hostname=$(hostname)
 #echo res: $res
 if [ -z "$2" ]
   then
-    echo send_to_influxdb exceptions,file=$log_file_with_exceptions $res
+    send_to_influxdb exceptions,file=$log_file_with_exceptions $res
   else
-    echo send_to_influxdb exceptions,file=$2 $res
+    send_to_influxdb exceptions,file=$2 $res
 fi
 #send_to_influxdb exceptions,file=$log_file_with_exceptions $res
 
